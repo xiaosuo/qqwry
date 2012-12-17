@@ -1,0 +1,58 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
+require 'qqwry'
+require 'optparse'
+require 'csv'
+
+db_path = 'QQWry.Dat'
+
+opt_parser = OptionParser.new do |opts|
+  opts.banner = "Usage: #$0 [options] (dump FN.csv)|(query IP)|version"
+
+  opts.separator('Version: ' + QQWry::VERSION)
+  opts.separator('Options:')
+
+  opts.on('-d', '--database PATH',
+          'Use the database at PATH instead of QQWry.Dat') do |d|
+    db_path = d
+  end
+
+  opts.on('-h', '--help', 'Show this message') do |h|
+    puts opts
+    exit
+  end
+end
+opt_parser.parse!(ARGV)
+
+db = QQWry::Database.new(db_path)
+case ARGV[0]
+when 'dump'
+  if ARGV.length != 2
+    puts opt_parser
+    exit(1)
+  end
+  CSV.open(ARGV[1], 'w') do |writer|
+    db.each do |r|
+      writer << [r.ip_str_start, r.ip_str_end, r.country, r.area]
+    end
+  end
+when 'query'
+  if ARGV.length != 2
+    puts opt_parser
+    exit(1)
+  end
+  r = db.query(ARGV[1])
+  puts "country: #{r.country}"
+  puts "area: #{r.area}"
+when 'version'
+  if ARGV.length != 1
+    puts opt_parser
+    exit(1)
+  end
+  puts db.version
+else
+  puts opt_parser
+  exit(1)
+end
