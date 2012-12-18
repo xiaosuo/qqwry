@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = QQWry::VERSION
   gem.authors       = ["Changli Gao"]
   gem.email         = ["xiaosuo@gmail.com"]
-  gem.description   = %q{A Ruby interface for QQWry IP database}
-  gem.summary       = %q{A Ruby interface for QQWry IP database}
+  gem.description   = %q{A Ruby interface to QQWry IP database}
+  gem.summary       = %q{A Ruby interface to QQWry IP database}
   gem.homepage      = 'https://github.com/xiaosuo/qqwry'
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

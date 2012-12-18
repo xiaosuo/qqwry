@@ -1,6 +1,6 @@
 # QQWry
 
-A Ruby interface for QQWry IP database.
+A Ruby interface to QQWry IP database.
 
 ## Installation
 
