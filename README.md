@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-At First, you need to get the latest QQWry IP database from http://www.cz88.net
+At first, you need to get the latest QQWry IP database from http://www.cz88.net
 
 ````ruby
 require 'rubygems'
