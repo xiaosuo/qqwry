@@ -57,3 +57,12 @@ class TC_Record < Test::Unit::TestCase
     @nil_area = true
   end
 end
+
+class TC_Record_Abnormal < Test::Unit::TestCase
+  def test_invalid_encoding
+    io = StringIO.new("\x04\x03\x02\x01\xd6\xea\x96\x00\x96\x00")
+    r = QQWry::Record.new(0, io, 0)
+    assert_equal("\xe6\xa0\xaa", r.country.to_s)
+    assert_equal('', r.area.to_s)
+  end
+end

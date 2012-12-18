@@ -37,7 +37,7 @@ module QQWry
         parse_area(file)
       end
       if @country
-        @country = Iconv.conv('UTF-8', 'GBK', @country)
+        @country = conv(@country)
         @country = nil if @country=~ /\s*CZ88\.NET\s*/
       end
     end
@@ -56,6 +56,15 @@ module QQWry
       [ip].pack('N').unpack('C4').join('.')
     end
 
+    def conv(str)
+      begin
+        Iconv::conv('UTF-8', 'GBK', str)
+      rescue
+        str = str[0, str.length - 1]
+        retry
+      end
+    end
+
     def parse_area(file)
       case BinData::Uint8.read(file).to_i
       when 0x1, 0x2
@@ -69,7 +78,7 @@ module QQWry
         @area = BinData::Stringz.read(file).to_s
       end
       if @area
-        @area = Iconv.conv('UTF-8', 'GBK', @area)
+        @area = conv(@area)
         # CZ88.NET is an advertisement
         @area = nil if @area =~ /\s*CZ88\.NET\s*/
       end
