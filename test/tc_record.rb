@@ -62,7 +62,9 @@ class TC_Record_Abnormal < Test::Unit::TestCase
   def test_invalid_encoding
     io = StringIO.new("\x04\x03\x02\x01\xd6\xea\x96\x00\x96\x00")
     r = QQWry::Record.new(0, io, 0)
-    assert_equal("\xe6\xa0\xaa".force_encoding('UTF-8'), r.country.to_s)
+    s = "\xe6\xa0\xaa"
+    s = s.force_encoding('UTF-8') if s.respond_to?(:force_encoding)
+    assert_equal(s, r.country.to_s)
     assert_equal('', r.area.to_s)
   end
 end
