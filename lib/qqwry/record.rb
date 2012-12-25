@@ -2,7 +2,7 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'bindata'
-require 'iconv'
+require 'iconv' unless RUBY_VERSION.respond_to?(:encode)
 
 module QQWry
   class Record
@@ -58,7 +58,11 @@ module QQWry
 
     def conv(str)
       begin
-        Iconv::conv('UTF-8', 'GBK', str)
+        if str.respond_to?(:encode)
+          str.force_encoding('GBK').encode('UTF-8')
+        else
+          Iconv::conv('UTF-8', 'GBK', str)
+        end
       rescue
         str = str[0, str.length - 1]
         retry
